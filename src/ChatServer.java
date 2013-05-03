@@ -1,16 +1,11 @@
-package tp.server;
-
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import tp.rmi.IChatClient;
-import tp.rmi.IChatServer;
 
 /**
  *
@@ -19,10 +14,15 @@ import tp.rmi.IChatServer;
 public class ChatServer extends UnicastRemoteObject implements IChatServer {
 
     private ArrayList<IChatClient> clients;
-    
+
     public static void main(String[] args) {
         try {
-            Naming.rebind("server.n6chat", new ChatServer());
+            ChatServer server = new ChatServer();
+            Naming.rebind("n6chat", server);
+
+            Scanner scanner = new Scanner(System.in);
+            scanner.nextLine();
+
         } catch (RemoteException | MalformedURLException ex) {
             Logger.getLogger(ChatServer.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -34,11 +34,13 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer {
 
     @Override
     public boolean register(IChatClient client) throws RemoteException {
+        System.out.println("Welcome");
         return this.clients.add(client);
     }
 
     @Override
     public boolean unregister(IChatClient client) throws RemoteException {
+        System.out.println("Goodbye");
         return this.clients.remove(client);
     }
 
@@ -47,8 +49,7 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer {
         for (IChatClient client : this.clients) {
             try {
                 client.receive(msg);
-            }
-            catch( RemoteException ex){
+            } catch (RemoteException ex) {
                 this.unregister(client);
             }
         }

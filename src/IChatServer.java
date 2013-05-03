@@ -1,8 +1,5 @@
-package tp.rmi;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-
 /**
  * @author Georges OLIVARES <dev@olivares-georges.fr>
  */
