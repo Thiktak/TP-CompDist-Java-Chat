@@ -14,4 +14,6 @@ public interface IChatClient extends Remote {
     public void disconnect() throws RemoteException;
 
     public void send(String msg) throws RemoteException;
+
+    public void receive(String msg) throws RemoteException;
 }
