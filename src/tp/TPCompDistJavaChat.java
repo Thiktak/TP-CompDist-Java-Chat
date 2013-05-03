@@ -1,7 +1,4 @@
-/*
- * 
- */
-package tp.compdist.java.chat;
+package tp;
 
 /**
  *
